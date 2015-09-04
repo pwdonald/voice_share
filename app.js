@@ -10,6 +10,7 @@ var express = require('express'),
     flash = require('express-flash'),
     routes = require('./routes/index'),
     users = require('./routes/users'),
+    apiUser = require('./routes/api/user'),
     app = express();
 
 // view engine setup
@@ -43,6 +44,7 @@ localSetup();
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/api/user', apiUser);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
