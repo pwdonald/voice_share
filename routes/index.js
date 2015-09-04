@@ -1,32 +1,62 @@
 var express = require('express');
 var router = express.Router();
 
+var alreadyLoggedIn = function(req, res, next) {
+    if (req.user && req.isAuthenticated()) {
+        res.redirect('/app');
+    } else {
+        next();
+    }
+};
+
+var isLoggedIn = function(req, res, next) {
+    if (req.user && req.isAuthenticated()) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+};
+
+router.use(function(req, res, next) {
+    res.locals.user = req.user;
+    res.locals.role = (req.user ? req.user.role : 0);
+    next();
+});
+
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', alreadyLoggedIn, function(req, res, next) {
     res.render('index', {
-        title: 'T3nT',
-        user: req.user && req.user.username || 'anon'
+        title: 'Voice App',
+        home: 'active'
     });
 });
 
-router.get('/login', function(req, res, next) {
+router.get('/login', alreadyLoggedIn, function(req, res, next) {
     res.render('login', {
         title: 'Login to T3nT',
+        login: 'active',
         error: req.flash('error')
     });
 });
 
-router.get('/logout', function(req, res, next) {
+router.get('/logout', isLoggedIn, function(req, res, next) {
     req.session.destroy(function() {
         req.logout();
         res.redirect('/');
     });
 });
 
-router.get('/register', function(req, res, next) {
+router.get('/register', alreadyLoggedIn, function(req, res, next) {
     res.render('register', {
         title: 'Register',
+        register: 'active',
         error: req.flash('error')
+    });
+});
+
+router.get('/app/', isLoggedIn, function(req, res, next) {
+    res.render('appview', {
+        app: true
     });
 });
 

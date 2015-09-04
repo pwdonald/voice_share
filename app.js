@@ -1,18 +1,16 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var NedbStore = require('connect-nedb-session')(session);
-var passport = require('passport');
-var localSetup = require('./config/local');
-var flash = require('express-flash');
-
-var routes = require('./routes/index');
-var users = require('./routes/users');
-
-var app = express();
+var express = require('express'),
+    path = require('path'),
+    favicon = require('serve-favicon'),
+    logger = require('morgan'),
+    bodyParser = require('body-parser'),
+    session = require('express-session'),
+    NedbStore = require('connect-nedb-session')(session),
+    passport = require('passport'),
+    localSetup = require('./config/local'),
+    flash = require('express-flash'),
+    routes = require('./routes/index'),
+    users = require('./routes/users'),
+    app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

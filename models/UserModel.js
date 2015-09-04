@@ -28,7 +28,8 @@ exports.IsUsernameAvailable = function(req, res, next) {
 
         if (user) {
             // not available
-            return next(new Error('Username already exists'));
+            req.flash('error', 'Username invalid.');
+            res.redirect('/register');
         }
 
         next();
@@ -52,6 +53,7 @@ exports.CreateNewUser = function(req, res, next) {
     User.insert({
         username: req.body.username,
         password: req.body.hashedPassword,
+        role: 0,
         timestamp: new Date()
     }, function(err, user) {
         if (err) {
