@@ -6,7 +6,7 @@ var User = new Datastore({
     autoload: true
 });
 
-exports.FindById = function(id, callback) {
+exports.findById = function(id, callback) {
     User.findOne({
         _id: id
     }, callback);
@@ -15,10 +15,12 @@ exports.FindById = function(id, callback) {
 exports.findByUsername = function(username, callback) {
     User.findOne({
         username: username
-    }, callback);
+    }, function(err, user) {
+        callback(err, user);
+    });
 };
 
-exports.IsUsernameAvailable = function(req, res, next) {
+exports.isUsernameAvailable = function(req, res, next) {
     User.findOne({
         username: req.body.username
     }, function(err, user) {
@@ -36,7 +38,7 @@ exports.IsUsernameAvailable = function(req, res, next) {
     });
 };
 
-exports.HashPassword = function(req, res, next) {
+exports.hashPassword = function(req, res, next) {
     bcrypt.genSalt(10, function(err, salt) {
         bcrypt.hash(req.body.password, salt, function(err, hashedPassword) {
             req.body.hashedPassword = hashedPassword;
@@ -45,11 +47,11 @@ exports.HashPassword = function(req, res, next) {
     });
 };
 
-exports.CheckPassword = function(user, password, callback) {
+exports.checkPassword = function(user, password, callback) {
     bcrypt.compare(password, user.password, callback);
 };
 
-exports.CreateNewUser = function(req, res, next) {
+exports.createNewUser = function(req, res, next) {
     User.insert({
         username: req.body.username,
         password: req.body.hashedPassword,

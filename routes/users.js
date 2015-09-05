@@ -22,7 +22,7 @@ router.post('/login',
         failureFlash: true
     }));
 
-router.post('/register', confirmPassword, User.IsUsernameAvailable, User.HashPassword, User.CreateNewUser, passport.authenticate('local', {
+router.post('/register', confirmPassword, User.isUsernameAvailable, User.hashPassword, User.createNewUser, passport.authenticate('local', {
     successRedirect: '/app',
     failureFlash: true
 }));

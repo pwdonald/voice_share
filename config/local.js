@@ -23,7 +23,7 @@ var checkUsername = function(username, password, next, callback) {
 };
 
 var checkPassword = function(user, password, next) {
-    User.CheckPassword(user, password, function(err, success) {
+    User.checkPassword(user, password, function(err, success) {
         if (err) {
             return next(err);
         }
@@ -46,7 +46,7 @@ module.exports = function() {
     });
 
     passport.deserializeUser(function(id, done) {
-        User.FindById(id, function(err, user) {
+        User.findById(id, function(err, user) {
             done(err, user);
         });
     });

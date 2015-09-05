@@ -10,9 +10,10 @@ var isLoggedIn = function(req, res, next) {
 };
 
 router.get('/', isLoggedIn, function(req, res) {
-    res.json({
-        username: req.user.username
-    });
+	if (req.user && req.user.password) {
+		delete req.user.password;
+	}
+    res.json(req.user);
 });
 
 module.exports = router;
