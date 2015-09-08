@@ -67,3 +67,33 @@ exports.createNewUser = function(req, res, next) {
         next();
     });
 };
+
+exports.getUserProfile = function(req, res,next) {
+    User.findOne({_id = req.body.id}, function(err, user) {
+        if (err) {
+            next(err);
+        }
+
+        req.body.profile = user.profile;
+
+        next();
+    });
+};
+
+exports.updateUserProfile = function(req, res, next) {
+    User.update({
+        _id: req.user._id
+    }, {
+        $set: {
+            profile: req.user.profile
+        }
+    }, function(err, num, updatedUser) {
+        if (err) {
+            next(err);
+        }
+
+        req.user = updatedUser;
+
+        next();
+    });
+};

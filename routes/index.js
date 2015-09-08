@@ -17,6 +17,12 @@ var isLoggedIn = function(req, res, next) {
     }
 };
 
+var showAppIndex = function(req, res, next) {
+    res.render('appview', {
+        app: true
+    });
+};
+
 router.use(function(req, res, next) {
     res.locals.user = req.user;
     res.locals.role = (req.user ? req.user.role : 0);
@@ -54,10 +60,6 @@ router.get('/register', alreadyLoggedIn, function(req, res, next) {
     });
 });
 
-router.get('/app/', isLoggedIn, function(req, res, next) {
-    res.render('appview', {
-        app: true
-    });
-});
+router.get('/app*', isLoggedIn, showAppIndex);
 
 module.exports = router;
